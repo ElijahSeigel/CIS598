@@ -1,0 +1,24 @@
+{
+  "name": "silent_dance_off",
+  "version": "1.0.0",
+  "description": "A competetive silent dance party game",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+	"build": "react-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElijahSeigel/CIS598.git"
+  },
+  "author": "Elijah Seigel",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ElijahSeigel/CIS598/issues"
+  },
+  "homepage": "https://github.com/ElijahSeigel/CIS598#readme",
+  "devDependencies": {
+    "react-scripts": "^1.1.4"
+  }
+}
