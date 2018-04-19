@@ -1,2 +1,0 @@
-4/19/18, 12:00AM, set up repository
-4/19/18, 1:09PM, install and configure NPM
