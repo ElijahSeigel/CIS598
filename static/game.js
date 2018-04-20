@@ -1,5 +1,6 @@
 //game.js
 
+//legacy from when I was using the babel transpiler
 import Entrance from './useCase/entrance';
 import Join from './useCase/join';
 import create from './useCase/create';
@@ -17,9 +18,28 @@ class Game{
 	constructor(){
 		//keeps track of which state the client is in, defined in the use case realization
 		this.state = 0;
+		
+		//whether this client owns the game room
 		this.ownerFlag = false;
+		
+		//x and y coordinates of click, default -1
 		this.x = -1;
 		this.y = -1;
+		
+		//state variables
+		this.entrance = new Entrance();
+		this.join = new Join();
+		this.create = new Create();
+		this.wait = new Wait();
+		this.waitStart = new WaitStart();
+		this.songPlaying = new SongPlaying();
+		this.out = new Out();
+		this.vote = new Vote();
+		this.loss = new Loss();
+		this.a = new A();
+		this.b = new B();
+		this.winner = new Winner();
+		
 		//Create the canvas
 		this.canvas = document.getElementById('canvas');
 		this.canvas.style.width = window.innerWidth + "px";
@@ -48,40 +68,41 @@ class Game{
 	update(){
 		switch(this.state){
 			case 0:
-				this.State = Entrance.update(this.X, this.Y);
+				this.state = entrance.update(this.X, this.Y);
+				if(this.State == 2) ownerFlag = true;
 				break;
 			case 1:
-				this.State = this.state = Join.update(this.X, this.Y);
+				this.state = join.update(this.X, this.Y);
 				break;
 			case 2:
-				this.State = Create.update(this.X, this.Y);
+				this.state = create.update(this.X, this.Y);
 				break;
 			case 3:
-				this.State = Wait.update(this.X, this.Y);
-				break;
+				this.state = wait.update(this.X, this.Y);
+				break
 			case 4:
-				this.State = WaitStart.update(this.X, this.Y);
+				this.state = waitStart.update(this.X, this.Y);
 				break;
 			case 5:
-				this.State = SongPlaying.update(this.X, this.Y);
+				this.state = songPlaying.update(this.X, this.Y);
 				break;
 			case 6:
-				this.State = Out.update(this.X, this.Y);
+				this.state = out.update(this.X, this.Y);
 				break;
 			case 7:
-				this.State = Vote.update(this.X, this.Y);
+				this.state = vote.update(this.X, this.Y);
 				break;
 			case 8:
-				this.State = Loss.update(this.X, this.Y);
+				this.state = loss.update(this.X, this.Y);
 				break;
 			case 9:
-				this.State = A.update(this.X, this.Y);
+				this.state = a.update(this.X, this.Y);
 				break;
 			case 10:
-				this.State = B.update(this.X, this.Y);
+				this.state = b.update(this.X, this.Y);
 				break;
 			case 11:
-				this.State = Winner.update(this.X, this.Y);
+				this.state = winner.update(this.X, this.Y);
 				break;
 		}//end switch(state)
 		this.X = -1;
@@ -91,40 +112,40 @@ class Game{
 	render(){
 		switch(this.state){
 			case 0:
-				Entrance.render(this.context);
+				Entrance.render(this.context, this.ownerFlag);
 				break;
 			case 1:
-				toin.render(this.context);
+				toin.render(this.context, this.ownerFlag);
 				break;
 			case 2:
-				Create.render(this.context);
+				Create.render(this.context, this.ownerFlag);
 				break;
 			case 3:
-				Wait.render(this.context);
+				Wait.render(this.context, this.ownerFlag);
 				break;
 			case 4:
-				WaitStart.render(this.context);
+				WaitStart.render(this.context, this.ownerFlag);
 				break;
 			case 5:
-				SongPlaying.render(this.context);
+				SongPlaying.render(this.context, this.ownerFlag);
 				break;
 			case 6:
-				Out.render(this.context);
+				Out.render(this.context, this.ownerFlag);
 				break;
 			case 7:
-				Vote.render(this.context);
+				Vote.render(this.context, this.ownerFlag);
 				break;
 			case 8:
-				Loss.render(this.context);
+				Loss.render(this.context, this.ownerFlag);
 				break;
 			case 9:
-				A.render(this.context);
+				A.render(this.context, this.ownerFlag);
 				break;
 			case 10:
-				B.render(this.context);
+				B.render(this.context, this.ownerFlag);
 				break;
 			case 11:
-				Winner.render(this.context);
+				Winner.render(this.context, this.ownerFlag);
 				break;
 		}//end switch(state)
 	}//end render
@@ -135,5 +156,192 @@ class Game{
 	}//end loop
 	
 }
+
+//a class for each state
+
+//state 0
+class Entrance{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+		
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 1
+class Join{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);v
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 2
+class create{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 3
+class Wait{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 4
+class WaitStart{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y, ownerFlag){
+		
+	}
+	render(ctxt){
+		
+	}
+}
+
+//state 5
+class SongPlaying{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 6
+class Out{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 7
+class Vote{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 8
+class Loss{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 9
+class A{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 10
+class B{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//state 11
+class Winner{
+	constructor(){
+		//bind class functions
+		this.update = this.update.bind(this);
+		this.render = this.render.bind(this);
+	}
+	update(x,y){
+		
+	}
+	render(ctxt, ownerFlag){
+		
+	}
+}
+
+//start the client code
 new Game();
 

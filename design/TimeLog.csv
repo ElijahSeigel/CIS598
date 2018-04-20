@@ -13,4 +13,5 @@
 4/19/18, 10:15PM, debug full screen canvas not being written to screen in tests, CONT
 4/19/18, 11:46PM, continue with client code, CONT
 4/20/18, 12:06AM, generalized client code written must write script for each state, STOP
-
+4/20/18, 1:44PM, begin writing script for each state, START
+4/20/18, 2:15PM, state scripts skeletons written, BREAK
