@@ -58,6 +58,9 @@ class Game{
 		
 		//initial render
 		this.render();
+		
+		// Start the game loop
+		this.interval = setInterval(this.loop, 10);
 	}//end constructor
 	
 	handleInput(event){
@@ -168,12 +171,53 @@ class Entrance{
 		
 	}
 	update(x,y){
+		if(x>window.innerWidth/16
+		   &&x<window.innerWidth-window.innerWidth/16
+		   &&y>8*window.innerHeight/18
+		   && y<11*window.innerHeight/18){
+			return 2;
+		}//end if xy in create
 		
-	}
-	render(ctxt, ownerFlag){
+		if(x>window.innerWidth/16
+		   &&x<window.innerWidth-window.innerWidth/16
+		   &&y>12*window.innerHeight/18
+		   && y<15*window.innerHeight/18){//replace with XY in Create
+			return 1;
+		}//end if xy in join
 		
-	}
-}
+		return 0;//click not in button, don't care
+	}//end update
+	
+	render(ctx, ownerFlag){
+		ctx.save();
+		
+		//background
+		ctx.fillStyle = 'rgb(52,152,219)';
+		ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+		
+		//title
+		ctx.fillStyle = 'rgb(174,214,241)';
+		var font_size = window.innerHeight/9;
+		ctx.font = 'Bold '+font_size+'px Courier';
+		ctx.textAlign = "center";
+		ctx.fillText("SILENT",window.innerWidth/2, 2*window.innerHeight/18);
+		ctx.fillText("DANCE",window.innerWidth/2, 4*window.innerHeight/18);
+		ctx.fillText("PARTY",window.innerWidth/2, 6*window.innerHeight/18);
+		
+		//buttons
+		ctx.fillStyle = 'rgb(27,79,114)';
+		ctx.fillRect(window.innerWidth/16, 8*window.innerHeight/18, 7*window.innerWidth/8, 3*window.innerHeight/18);
+		ctx.fillRect(window.innerWidth/16, 12*window.innerHeight/18, 7*window.innerWidth/8, 3*window.innerHeight/18);
+		
+		//labels
+		ctx.fillStyle = 'rgb(52,152,219)';
+		ctx.font = font_size+'px Courier';
+		ctx.fillText("CREATE",window.innerWidth/2, 10*window.innerHeight/18);
+		ctx.fillText("JOIN",window.innerWidth/2, 14*window.innerHeight/18);
+		
+		ctx.restore();
+	}//end render
+}//end state 0
 
 //state 1
 class Join{
@@ -185,7 +229,7 @@ class Join{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -200,7 +244,7 @@ class create{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -215,7 +259,7 @@ class Wait{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -230,7 +274,7 @@ class WaitStart{
 	update(x,y, ownerFlag){
 		
 	}
-	render(ctxt){
+	render(ctx){
 		
 	}
 }
@@ -245,7 +289,7 @@ class SongPlaying{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -262,7 +306,7 @@ class Out{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -277,7 +321,7 @@ class Vote{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -292,7 +336,7 @@ class Loss{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -307,7 +351,7 @@ class A{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -322,7 +366,7 @@ class B{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
@@ -337,7 +381,7 @@ class Winner{
 	update(x,y){
 		
 	}
-	render(ctxt, ownerFlag){
+	render(ctx, ownerFlag){
 		
 	}
 }
