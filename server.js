@@ -21,8 +21,7 @@ server.listen(5000, function() {
 io.on('connection', function (socket){
 	
 });
-/* testing connection*
+//testing connection*
 setInterval(function() {
   io.sockets.emit('message', 'hi!');
 }, 1000);
-*/

@@ -7,3 +7,10 @@
 4/19/18, 6:56PM, begin researching user input methods in js, START
 4/19/18, 7:09PM, write skeleton of client code, CONT
 4/19/18, 7:15PM, skeleton of client code defined in game.js, BREAK
+4/19/18, 9:06PM, update use case realization to include state and continue with client code, START
+4/19/18, 9:39PM, updated use case realization again to add detail and fix state, CONT
+4/19/18, 9:40PM, continue with client code, CONT
+4/19/18, 10:15PM, debug full screen canvas not being written to screen in tests, CONT
+4/19/18, 11:46PM, continue with client code, CONT
+4/20/18, 12:06AM, generalized client code written must write script for each state, STOP
+
