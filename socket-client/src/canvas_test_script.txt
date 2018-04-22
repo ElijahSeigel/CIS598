@@ -10,11 +10,6 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
-// Create a red line in position 150
-ctx.strokeStyle = "red";
-ctx.moveTo(150, 20);
-ctx.lineTo(150, 170);
-ctx.stroke();
 
 ctx.font = window.innerHeight/9-30+"px Arial";    
 
