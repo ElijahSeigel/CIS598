@@ -37,7 +37,7 @@ export default class Entrance{
 		ctx.textAlign = "center";
 		ctx.fillText("SILENT",width/2, 2*height/18);
 		ctx.fillText("DANCE",width/2, 4*height/18);
-		ctx.fillText("PARTY",width/2, 6*height/18);
+		ctx.fillText("OFF",width/2, 6*height/18);
 		
 		//buttons
 		ctx.fillStyle = 'rgb(27,79,114)';

@@ -5,12 +5,12 @@ export default class WaitStart{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 	}
-	update(x,y, ownerFlag, width, height){
+	update(x,y, width, height){
 		if(x>width/16
 		   &&x<(width-width/16)
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
-			//send room name to server
+			
 			return 5;
 		}//end if xy in start
 		return 4;
@@ -37,6 +37,6 @@ export default class WaitStart{
 		//labels
 		ctx.fillStyle = 'rgb(52,152,219)';
 		ctx.font = font_size+'px Courier';
-		ctx.fillText("ENTER",width/2, 14*height/18);
+		ctx.fillText("START",width/2, 14*height/18);
 	}
 }

@@ -76,7 +76,7 @@ export default class Game{
 		switch(this.state){
 			case 0:
 				this.state = this.entrance.update(this.X, this.Y, this.canvas.width, this.canvas.height);
-				if(this.State === 2) this.ownerFlag = true;
+				if(this.state === 2){this.ownerFlag = true};
 				break;
 			case 1:
 				this.state = this.join.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input);
@@ -100,7 +100,7 @@ export default class Game{
 				this.state = this.vote.update(this.X, this.Y, this.canvas.width, this.canvas.height);
 				break;
 			case 8:
-				this.state = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height);
+				this.state = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag);
 				break;
 			case 9:
 				this.state = this.a.update(this.X, this.Y, this.canvas.width, this.canvas.height);
@@ -109,7 +109,7 @@ export default class Game{
 				this.state = this.b.update(this.X, this.Y, this.canvas.width, this.canvas.height);
 				break;
 			case 11:
-				this.state = this.winner.update(this.X, this.Y, this.canvas.width, this.canvas.height);
+				this.state = this.winner.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag);
 				break;
 		}//end switch(state)
 		this.X = -1;
