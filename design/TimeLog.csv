@@ -12,7 +12,7 @@
 4/19/18, 9:40PM, continue with client code, CONT
 4/19/18, 10:15PM, debug full screen canvas not being written to screen in tests, CONT
 4/19/18, 11:46PM, continue with client code, CONT
-4/20/18, 12:06AM, generalized client code written must write class for each state, STOP
+4/20/18, 12:06AM, generalized client code written must write class for each state, BREAK
 4/20/18, 1:44PM, begin writing class for each state, START
 4/20/18, 2:15PM, state class skeletons written now doing concept art, CONT
 4/20/18, 2:53PM, writing first state class, CONT
@@ -32,5 +32,5 @@
 4/23/18, 11:57AM, working on progress update presentation, START
 4/23/18, 12:17PM, break for lunch, BREAK
 4/23/18, 12:53PM, working on progress update presentation, START
-4/23/18, 12:53PM, working on progress update presentation, START
-4/23/18, 1:27PM, progress update presentation complete, BREAK
+4/23/18, 1:27PM, migrating work to laptop for presentation, CONT
+4/23/18, 2:45PM, migrated work to laptop for presentation, BREAK
