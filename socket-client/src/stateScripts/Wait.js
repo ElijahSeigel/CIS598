@@ -4,11 +4,15 @@ export default class Wait{
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		this.code = "unset";
+		socket.on('start', (result)=>{
+				this.code = result;
+		})
 	}
 	update(x,y, width, height){
-		return socket.on('start', (result)=>{
-				return {5, result};
-			})
+		if(this.code !== "unset"){	
+			return {5, this.code}; 
+		}
 	return {3};
 		//server communication code goes here
 	}

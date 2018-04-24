@@ -4,6 +4,10 @@ export default class WaitStart{
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		this.code = "unset";
+		socket.on('start', (result)=>{
+				this.code = result;
+		})
 	}
 	update(x,y, width, height, socket, id){
 		if(x>width/16
@@ -11,10 +15,10 @@ export default class WaitStart{
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
 			socket.emit('start', id);
-			return socket.on('start', (result)=>{
-				return {5, result};
-			})
 		}//end if xy in start
+		if(this.code !== "unset"){	
+			return {5, this.code}; 
+		}
 		return {4};
 	}
 	render(ctx, ownerFlag, width, height, input){

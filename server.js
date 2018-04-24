@@ -40,8 +40,8 @@ io.on('connection', socket => {
 		 }
 		 rooms[room_count].name = name;
 		 rooms[room_count].id = room_count;
-		 rooms[room_count].players.add(socket);
-		 rooms[room_count].inStill.add(socket);
+		 rooms[room_count].players.push({socket});
+		 rooms[room_count].inStill.push({socket});
 		 socket.emit('new_room', room_count);
 		 room_count++;
 	 }) 
@@ -51,8 +51,8 @@ io.on('connection', socket => {
   socket.on('join_room', (name)=>{
 	 rooms.forEach(function(room){
 		 if(room.name === name){
-			 room.players.add(socket);
-			 room.inStill.add(socket);
+			 room.players.push({socket});
+			 room.inStill.push(socket);
 			 socket.emit('join_room', room.id);
 			 return;
 		 }
@@ -63,10 +63,39 @@ io.on('connection', socket => {
   
   socket.on('start', (id)=>{
 	  var d = new Date();
-	  var s = d.getSeconds();
-	for(let player of rooms[id].players){
-		player.emit('start', s);
-	} 
+	  var pairs;
+	  rooms[id].players.forEach(function(player){
+		player.push(""+math.floor(Math.random()*Math.floor(10))+" "+math.floor(Math.random()*Math.floor(10))+" "+math.floor(Math.random()*Math.floor(10))+" "+math.floor(Math.random()*Math.floor(10)));
+	  });
+	  //adapted from https://stackoverflow.com/questions/21295162/javascript-randomly-pair-items-from-array-without-repeats
+	  if(rooms[id].players.length%2 === 0){
+		var players1 = Array.from(rooms[id].players.slice(),
+		var players2 = Array.from(rooms[id].players);
+		
+		players1.sort(function() { return 0.5 - Math.random();});
+		players2.sort(function() { return 0.5 - Math.random();});
+		
+		while(players1.length){
+			var player1 = players1.pop(),
+            player2 = players2[0] == player1 ? players2.pop() : players2.shift();
+			
+			players1.splice(players1.findIndex(player2),0);
+			players2.splice(players2.findIndex(player1),0);
+			
+			rooms[id].players.forEach(function(player){
+				if(player[1] === player1[1]){
+					player[2] = player2[1];
+				}
+				if(player[1] === player2[1]){
+					player[2] = player1[1];
+				}
+			});
+		}
+	  }
+	  
+	  rooms[id].players.forEach(function(player){
+		 player[0].emit('start', player[1]);
+	  });
   })
   
   

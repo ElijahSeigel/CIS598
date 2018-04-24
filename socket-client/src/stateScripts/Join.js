@@ -4,6 +4,12 @@ export default class Join{
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		
+		this.result = 'unset';
+		
+		socket.on('join_room', (result)=>{
+			this.result = result;
+		})
 	}
 	update(x,y, width, height, input){
 		if(x>width/16
@@ -12,15 +18,16 @@ export default class Join{
 		   &&y<(15*height/18)){
 			//send room name to server
 			socket.emit('join_room', input.value)
-			return socket.on('join_room', (result)=>{
-				if(result === 'failure'){
-					input.value = '';
-					return {1};
-				}
-				return {3, result};
-			})
 		}//end if xy in enter
-	return {1};
+		if(result === 'failure'){
+			input.value = '';
+			this.result = 'unset';
+			return {1};
+		}
+		else if (this.result !== 'unset'){
+			return {3, result};
+		}
+		return {1};
 	}
 	render(ctx, ownerFlag, width, height, input){
 		//background

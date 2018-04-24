@@ -5,6 +5,13 @@ export default class create{
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		
+		this.result='unset';
+		
+		socket.on('new_room', (result)=>{
+			this.result = result;
+		})
+		
 	}
 	update(x,y, width, height, input, socket){
 		if(x>width/16
@@ -13,14 +20,16 @@ export default class create{
 		   &&y<(15*height/18)){
 			//send room name to server
 			socket.emit('new_room', input.value)
-			return socket.on('new_room', (result)=>{
-				if(result === 'failure'){
-					input.value = '';
-					return {2};
-				}
-				return {4, result};
-			})
 		}//end if xy in enter
+		if(this.result === 'failure'){
+			input.value = '';
+			this.result = 'unset'
+			return {2};
+			}
+		else if (this.result !== 'unset')
+		{
+			return {4, this.result};
+		}
 		return {2};
 	}
 	render(ctx, ownerFlag, width, height, input){
