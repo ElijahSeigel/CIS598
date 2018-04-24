@@ -11,9 +11,16 @@ export default class Join{
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
 			//send room name to server
-			return 3;
+			socket.emit('join_room', input.value)
+			return socket.on('join_room', (result)=>{
+				if(result === 'failure'){
+					input.value = '';
+					return {1};
+				}
+				return {3, result};
+			})
 		}//end if xy in enter
-		return 1;
+	return {1};
 	}
 	render(ctx, ownerFlag, width, height, input){
 		//background

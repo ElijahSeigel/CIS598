@@ -1,5 +1,8 @@
 //game.js
 
+import scoketIOClient from 'socket.io-client';
+
+//game state scripts
 import Entrance from './stateScripts/Entrance';
 import Join from './stateScripts/Join';
 import Create from './stateScripts/Create';
@@ -13,10 +16,20 @@ import A from './stateScripts/A';
 import B from './stateScripts/B';
 import Winner from './stateScripts/Winner';
 
+//central game control class
 export default class Game{
 	constructor(){
 		//keeps track of which state the client is in, defined in the use case realization
 		this.state = 0;
+		
+		//communication endpoint
+		this.socket = socketIOClient("http://129.130.18.116:5000")
+		
+		//the room ID server side
+		this.roomID;
+		
+		//start time of the most recent round
+		this.roundStart;
 		
 		//whether this client owns the game room
 		this.ownerFlag = false;
@@ -79,16 +92,31 @@ export default class Game{
 				if(this.state === 2){this.ownerFlag = true};
 				break;
 			case 1:
-				this.state = this.join.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input);
+				var result = this.create.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input, this.socket);
+				this.state = result[0];
+				if(this.state === 3){
+					this.roomID = result[1];
+				}
 				break;
 			case 2:
-				this.state = this.create.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input);
+				var result = this.create.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input, this.socket);
+				this.state = result[0];
+				if(this.state === 4){
+					this.roomID = result[1];
+				}
 				break;
 			case 3:
-				this.state = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height);
-				break
+				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
+				this.state = result[0];
+				if(this.state === 5){
+					this.roundStart = result[1];
+				}
 			case 4:
-				this.state = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height);
+				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
+				this.state = result[0];
+				if(this.state === 5){
+					this.roundStart = result[1];
+				}
 				break;
 			case 5:
 				this.state = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height);

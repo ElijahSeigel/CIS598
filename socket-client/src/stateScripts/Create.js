@@ -6,15 +6,22 @@ export default class create{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 	}
-	update(x,y, width, height, input){
+	update(x,y, width, height, input, socket){
 		if(x>width/16
 		   &&x<(width-width/16)
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
 			//send room name to server
-			return 4;
+			socket.emit('new_room', input.value)
+			return socket.on('new_room', (result)=>{
+				if(result === 'failure'){
+					input.value = '';
+					return {2};
+				}
+				return {4, result};
+			})
 		}//end if xy in enter
-		return 2;
+		return {2};
 	}
 	render(ctx, ownerFlag, width, height, input){
 		//background

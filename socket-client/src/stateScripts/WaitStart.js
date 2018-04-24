@@ -5,15 +5,17 @@ export default class WaitStart{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 	}
-	update(x,y, width, height){
+	update(x,y, width, height, socket, id){
 		if(x>width/16
 		   &&x<(width-width/16)
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
-			
-			return 5;
+			socket.emit('start', id);
+			return socket.on('start', (result)=>{
+				return {5, result};
+			})
 		}//end if xy in start
-		return 4;
+		return {4};
 	}
 	render(ctx, ownerFlag, width, height, input){
 		input.hidden = true;

@@ -6,7 +6,10 @@ export default class Wait{
 		this.render = this.render.bind(this);
 	}
 	update(x,y, width, height){
-		return 3;
+		return socket.on('start', (result)=>{
+				return {5, result};
+			})
+	return {3};
 		//server communication code goes here
 	}
 	render(ctx, ownerFlag, width, height, input){
