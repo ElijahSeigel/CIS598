@@ -1,6 +1,6 @@
 //game.js
 
-import scoketIOClient from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 
 //game state scripts
 import Entrance from './stateScripts/Entrance';
@@ -23,8 +23,7 @@ export default class Game{
 		this.state = 0;
 		
 		//communication endpoint
-		this.socket = socketIOClient("http://129.130.18.116:5000")
-		
+		this.socket = socketIOClient("localhost:5000");
 		//the room ID server side
 		this.roomID;
 		
@@ -40,10 +39,10 @@ export default class Game{
 		
 		//state variables
 		this.entrance = new Entrance();
-		this.join = new Join();
-		this.create = new Create();
-		this.wait = new Wait();
-		this.waitStart = new WaitStart();
+		this.join = new Join(this.socket);
+		this.create = new Create(this.socket);
+		this.wait = new Wait(this.socket);
+		this.waitStart = new WaitStart(this.socket);
 		this.songPlaying = new SongPlaying();
 		this.out = new Out();
 		this.vote = new Vote();
@@ -92,9 +91,10 @@ export default class Game{
 				if(this.state === 2){this.ownerFlag = true};
 				break;
 			case 1:
-				var result = this.create.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input, this.socket);
+				var result = this.join.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input, this.socket);
 				this.state = result[0];
 				if(this.state === 3){
+					console.log(this.state);
 					this.roomID = result[1];
 				}
 				break;
@@ -106,11 +106,12 @@ export default class Game{
 				}
 				break;
 			case 3:
-				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
+				var result = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
 				this.state = result[0];
 				if(this.state === 5){
 					this.roundStart = result[1];
 				}
+				break;
 			case 4:
 				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				this.state = result[0];
@@ -191,7 +192,4 @@ export default class Game{
 	}//end loop
 	
 }
-
-//start the client code
-new Game();
 

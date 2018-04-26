@@ -1,13 +1,11 @@
 //state 2
-
 export default class create{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 		
 		this.result='unset';
-		
 		socket.on('new_room', (result)=>{
 			this.result = result;
 		})
@@ -23,14 +21,14 @@ export default class create{
 		}//end if xy in enter
 		if(this.result === 'failure'){
 			input.value = '';
-			this.result = 'unset'
-			return {2};
-			}
+			this.result = 'unset';
+			return [2];
+		}
 		else if (this.result !== 'unset')
 		{
-			return {4, this.result};
+			return [4, this.result];
 		}
-		return {2};
+		return [2];
 	}
 	render(ctx, ownerFlag, width, height, input){
 		//background

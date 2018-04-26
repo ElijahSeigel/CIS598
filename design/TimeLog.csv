@@ -39,3 +39,9 @@
 4/24/18, 1:34PM, bug fixing client server communication in first four states, START
 4/24/18, 2:17PM, writing matchmaking algorithm, CONT
 4/24/18, 3:21PM, matchmaker written, BREAK
+4/24/18, 8:45PM, begin hunting for music, START
+4/24/18, 9:03PM, playlist compiled, BREAK
+4/25/18, 2:14PM, server robustness testing for large room size large room number, START
+4/25/18, 3:51PM, debugging error with simultaneous room creation, BREAK
+4/25/18, 7:27PM, debugging error with simultaneous room creation, START
+4/25/18, 8:09PM, error with simultaneous room creation resolved, BREAK

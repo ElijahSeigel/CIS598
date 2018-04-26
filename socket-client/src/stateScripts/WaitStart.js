@@ -1,6 +1,6 @@
 //state 4
 export default class WaitStart{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
@@ -17,9 +17,9 @@ export default class WaitStart{
 			socket.emit('start', id);
 		}//end if xy in start
 		if(this.code !== "unset"){	
-			return {5, this.code}; 
+			return [5, this.code]; 
 		}
-		return {4};
+		return [4];
 	}
 	render(ctx, ownerFlag, width, height, input){
 		input.hidden = true;

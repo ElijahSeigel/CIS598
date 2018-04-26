@@ -7,7 +7,7 @@ var port = 5000;
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
-var rooms = {};
+var rooms = [];
 var room_count = 0;
 
 /*app.set('port', 5000);
@@ -31,33 +31,43 @@ setInterval(function() {
 
 io.on('connection', socket => {
   console.log('User connected')
-  
+
   socket.on('new_room', (name)=>{
+	 flag = true;
 	 rooms.forEach(function(room){
 		 if(room.name === name){
+			 console.log("failure making new room");
+			 flag = false;
 			 socket.emit('new_room', 'failure');
-			 return;
 		 }
-		 rooms[room_count].name = name;
-		 rooms[room_count].id = room_count;
-		 rooms[room_count].players.push({socket});
-		 rooms[room_count].inStill.push({socket});
-		 socket.emit('new_room', room_count);
-		 room_count++;
-	 }) 
-	 
+	 })
+	if(flag){
+		console.log("create: "+name);
+		rooms[room_count] = {name: name,
+							id: room_count,
+							players: [[socket]],
+							inStill: [[socket]]
+							};
+		socket.emit('new_room', room_count);
+		room_count++;
+	}
   })
   
   socket.on('join_room', (name)=>{
+	flag = true;
 	 rooms.forEach(function(room){
 		 if(room.name === name){
-			 room.players.push({socket});
-			 room.inStill.push(socket);
+			 room.players.push([socket]);
+			 room.inStill.push([socket]);
+			 console.log("join: "+ name)
 			 socket.emit('join_room', room.id);
-			 return;
+			 flag = false;
 		 }
-		 socket.emit('join_room', 'failure');
-	 }) 
+	 })
+	if(flag){
+		console.log("fail to join "+ name);
+		socket.emit('join_room', 'failure');
+	}
 	 
   })
   
@@ -65,12 +75,12 @@ io.on('connection', socket => {
 	  var d = new Date();
 	  var pairs;
 	  rooms[id].players.forEach(function(player){
-		player.push(""+math.floor(Math.random()*Math.floor(10))+" "+math.floor(Math.random()*Math.floor(10))+" "+math.floor(Math.random()*Math.floor(10))+" "+math.floor(Math.random()*Math.floor(10)));
+		player.push(""+Math.floor(Math.random()*Math.floor(10))+" "+Math.floor(Math.random()*Math.floor(10))+" "+Math.floor(Math.random()*Math.floor(10))+" "+Math.floor(Math.random()*Math.floor(10)));
 	  });
 	  //adapted from https://stackoverflow.com/questions/21295162/javascript-randomly-pair-items-from-array-without-repeats
 	  if(rooms[id].players.length%2 === 0){
-		var players1 = Array.from(rooms[id].players.slice(),
-		var players2 = Array.from(rooms[id].players);
+		var players1 = rooms[id].players.slice();
+		var players2 = rooms[id].players.slice();
 		
 		players1.sort(function() { return 0.5 - Math.random();});
 		players2.sort(function() { return 0.5 - Math.random();});
@@ -79,8 +89,8 @@ io.on('connection', socket => {
 			var player1 = players1.pop(),
             player2 = players2[0] == player1 ? players2.pop() : players2.shift();
 			
-			players1.splice(players1.findIndex(player2),0);
-			players2.splice(players2.findIndex(player1),0);
+			players1.splice(players1.indexOf(player2),0);
+			players2.splice(players2.indexOf(player1),0);
 			
 			rooms[id].players.forEach(function(player){
 				if(player[1] === player1[1]){
@@ -98,7 +108,7 @@ io.on('connection', socket => {
 	  });
   })
   
-  
+ 
   
   socket.on('disconnect', () => {
     console.log('user disconnected')

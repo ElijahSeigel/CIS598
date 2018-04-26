@@ -1,6 +1,6 @@
 //state 3
 export default class Wait{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
@@ -11,10 +11,9 @@ export default class Wait{
 	}
 	update(x,y, width, height){
 		if(this.code !== "unset"){	
-			return {5, this.code}; 
+			return [5, this.code]; 
 		}
-	return {3};
-		//server communication code goes here
+	return [3];
 	}
 	render(ctx, ownerFlag, width, height, input){
 		input.hidden = true;
