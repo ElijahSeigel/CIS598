@@ -17,7 +17,7 @@ export default class Join{
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
 			//send room name to server
-			socket.emit('join_room', input.value)
+			socket.emit('join_room', input.value.toUpperCase())
 		}//end if xy in enter
 		if(this.result === 'failure'){
 			input.value = '';

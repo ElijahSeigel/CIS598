@@ -1,96 +1,127 @@
 //state 5
 export default class SongPlaying{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 		this.inputLast = "";
 		this.input = "_ _ _ _"
 		this.round = 1;
-	}
-	update(x,y, width, height){
-		if(y>8*height/18&&y<10*height/18){
-			if(x>width/16&&x<5*width/16){//7
-				//console.log("7");
-				this.input = this.input.replace("_", "7");
-				this.inputLast = "7";
-			}//end if first column
-			if(x>3*width/8&&x<5*width/8){//8
-				//console.log("8");
-				this.input = this.input.replace("_", "8");
-				this.inputLast = "8";
-			}//end if second column
-			if(x>11*width/16&&x<15*width/16){//9
-				//console.log("9");
-				this.input = this.input.replace("_", "9");
-				this.inputLast = "9";
-			}//end if third column
-		}//end in first row
-		if(y>10.5*height/18&&y<12.5*height/18){
-			if(x>width/16&&x<5*width/16){//4
-				//console.log("4");
-				this.input = this.input.replace("_", "4");
-				this.inputLast = "4";
-			}//end if first column
-			if(x>3*width/8&&x<5*width/8){//5
-				//console.log("5");
-				this.input = this.input.replace("_", "5");
-				this.inputLast = "5";
-			}//end if second column
-			if(x>11*width/16&&x<15*width/16){//5
-				//console.log("6");
-				this.input = this.input.replace("_", "6");
-				this.inputLast = "6";
-			}//end if third column
-		}//end in second row
-		if(y>13*height/18&&y<15*height/18){
-			if(x>width/16&&x<5*width/16){//1
-				//console.log("1");
-				this.input = this.input.replace("_", "1");
-				this.inputLast = "1";
-			}//end if first column
-			if(x>3*width/8&&x<5*width/8){//2
-				//console.log("2");
-				this.input = this.input.replace("_", "2");
-				this.inputLast = "2";
-			}//end if second column
-			if(x>11*width/16&&x<15*width/16){//3
-				//console.log("3");
-				this.input = this.input.replace("_", "3");
-				this.inputLast = "3";
-			}//end if third column
-		}//end in third row
-		if(y>15.5*height/18&&y<17.5*height/18){
-			if(x>width/16&&x<5*width/16){//ENT
-				this.input = "_ _ _ _"
-				//console.log("ENT");
-				//check with server if input is correct
-				return 9;				
-			}//end if first column
-			if(x>3*width/8&&x<5*width/8){//0
-				//console.log("0");
-				this.input = this.input.replace("_", "0");
-				this.inputLast = "0";
-			}//end if second column
-			if(x>11*width/16&&x<15*width/16){//backspace
-				//console.log("<X");
-				if(this.inputLast !== ''){
-					var replaceIndex = this.input.lastIndexOf(this.inputLast);
-					this.input = ""+this.input.substring(0, replaceIndex)+"_"+this.input.substring(replaceIndex+1);
-					if(replaceIndex>0){
-						this.inputLast = this.input.charAt(replaceIndex-2);
-					}
-					else{
-						this.inputLast = '';
-					}
-				}
-				
-			}//end if third column
-		}//end in fourth row
 		
-		return 5;
+		this.result = "unset";
+		socket.on('guess', (result)=>{
+				this.result = result;
+		})
 	}
-	render(ctx, ownerFlag, width, height){
+	update(x,y, width, height, socket, roomID, timer){
+		if(this.result === 'unset'){
+			if(y>8*height/18&&y<10*height/18){
+				if(x>width/16&&x<5*width/16){//7
+					//console.log("7");
+					this.input = this.input.replace("_", "7");
+					this.inputLast = "7";
+				}//end if first column
+				if(x>3*width/8&&x<5*width/8){//8
+					//console.log("8");
+					this.input = this.input.replace("_", "8");
+					this.inputLast = "8";
+				}//end if second column
+				if(x>11*width/16&&x<15*width/16){//9
+					//console.log("9");
+					this.input = this.input.replace("_", "9");
+					this.inputLast = "9";
+				}//end if third column
+			}//end in first row
+			if(y>10.5*height/18&&y<12.5*height/18){
+				if(x>width/16&&x<5*width/16){//4
+					//console.log("4");
+					this.input = this.input.replace("_", "4");
+					this.inputLast = "4";
+				}//end if first column
+				if(x>3*width/8&&x<5*width/8){//5
+					//console.log("5");
+					this.input = this.input.replace("_", "5");
+					this.inputLast = "5";
+				}//end if second column
+				if(x>11*width/16&&x<15*width/16){//5
+					//console.log("6");
+					this.input = this.input.replace("_", "6");
+					this.inputLast = "6";
+				}//end if third column
+			}//end in second row
+			if(y>13*height/18&&y<15*height/18){
+				if(x>width/16&&x<5*width/16){//1
+					//console.log("1");
+					this.input = this.input.replace("_", "1");
+					this.inputLast = "1";
+				}//end if first column
+				if(x>3*width/8&&x<5*width/8){//2
+					//console.log("2");
+					this.input = this.input.replace("_", "2");
+					this.inputLast = "2";
+				}//end if second column
+				if(x>11*width/16&&x<15*width/16){//3
+					//console.log("3");
+					this.input = this.input.replace("_", "3");
+					this.inputLast = "3";
+				}//end if third column
+			}//end in third row
+			if(y>15.5*height/18&&y<17.5*height/18){
+				if(x>width/16&&x<5*width/16){//ENT
+					//this.input = "_ _ _ _";
+					//console.log("ENT");
+					//check with server if input is correct
+					socket.emit('guess', [roomID, this.input]);			
+				}//end if first column
+				if(x>3*width/8&&x<5*width/8){//0
+					//console.log("0");
+					this.input = this.input.replace("_", "0");
+					this.inputLast = "0";
+				}//end if second column
+				if(x>11*width/16&&x<15*width/16){//backspace
+					//console.log("<X");
+					if(this.inputLast !== ''){
+						var replaceIndex = this.input.lastIndexOf(this.inputLast);
+						this.input = ""+this.input.substring(0, replaceIndex)+"_"+this.input.substring(replaceIndex+1);
+						if(replaceIndex>0){
+							this.inputLast = this.input.charAt(replaceIndex-2);
+						}
+						else{
+							this.inputLast = '';
+						}
+					}
+					
+				}//end if third column
+			}//end in fourth row
+		}
+		if(timer === 0){
+			if(this.result === 'unset'){
+				socket.emit('guess', [roomID, '0 0 0 0']);
+			}
+			if(this.result === 'success'){
+				this.input= "_ _ _ _";
+				this.result = 'unset';
+				socket.emit('reset', roomID);
+				return [5,1];
+			}
+		}
+
+		if(this.result === 'failure'){
+			return [6];
+		}
+		
+		return [5, 0];
+	}
+	render(ctx, ownerFlag, width, height, code, time){
+		
+		time = Math.floor(time/100)
+				
+		var minutes = Math.floor( time / 60 );
+        if (minutes < 10) minutes = "0" + minutes;
+        var seconds = time % 60;
+        if (seconds < 10) seconds = "0" + seconds; 
+        var timerText = minutes + ':' + seconds;
+		
 		//background
 		ctx.fillStyle = 'rgb(52,152,219)';
 		ctx.fillRect(0, 0, width, height);
@@ -100,9 +131,14 @@ export default class SongPlaying{
 		var font_size = height/9;
 		ctx.font = 'Bold '+font_size+'px Courier';
 		ctx.textAlign = "center";
-		ctx.fillText("timer here",width/2, 2*height/18);
-		ctx.fillText("code here",width/2, 4*height/18);
-		ctx.fillText(this.input,width/2, 6*height/18);
+		ctx.fillText(timerText ,width/2, 2*height/18);
+		ctx.fillText(code ,width/2, 4*height/18);
+		if(this.result === 'unset'){
+			ctx.fillText(this.input,width/2, 6*height/18);
+		}
+		if(this.result === 'success'){
+			ctx.fillText('SUCCESS',width/2, 6*height/18);
+		}
 		
 		//buttons
 		ctx.fillStyle = 'rgb(27,79,114)';

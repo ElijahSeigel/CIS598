@@ -27,8 +27,11 @@ export default class Game{
 		//the room ID server side
 		this.roomID;
 		
-		//start time of the most recent round
-		this.roundStart;
+		//timer for the current round
+		this.roundTimer = 0;
+		
+		//the code assigned at start of game
+		this.code
 		
 		//whether this client owns the game room
 		this.ownerFlag = false;
@@ -43,7 +46,7 @@ export default class Game{
 		this.create = new Create(this.socket);
 		this.wait = new Wait(this.socket);
 		this.waitStart = new WaitStart(this.socket);
-		this.songPlaying = new SongPlaying();
+		this.songPlaying = new SongPlaying(this.socket);
 		this.out = new Out();
 		this.vote = new Vote();
 		this.loss = new Loss();
@@ -109,18 +112,24 @@ export default class Game{
 				var result = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundStart = result[1];
+					this.roundTimer = 18000;
+					this.code = result[1];
 				}
 				break;
 			case 4:
 				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundStart = result[1];
+					this.code = result[1];
+					this.roundTimer = 18000;
 				}
 				break;
 			case 5:
-				this.state = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height);
+				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer);
+				this.state = result[0];
+				if(this.state === 5 && result[1] === 1 ){
+					this.roundTimer = 18000;
+				}
 				break;
 			case 6:
 				this.state = this.out.update(this.X, this.Y, this.canvas.width, this.canvas.height);
@@ -143,6 +152,9 @@ export default class Game{
 		}//end switch(state)
 		this.X = -1;
 		this.Y = -1;
+		if(this.roundTimer>0){
+			this.roundTimer--;
+		}
 	}//end update
 	
 	render(){
@@ -163,7 +175,7 @@ export default class Game{
 				this.waitStart.render(this.context, this.ownerFlag, this.canvas.width, this.canvas.height, this.input);
 				break;
 			case 5:
-				this.songPlaying.render(this.context, this.ownerFlag, this.canvas.width, this.canvas.height);
+				this.songPlaying.render(this.context, this.ownerFlag, this.canvas.width, this.canvas.height, this.code, this.roundTimer);
 				break;
 			case 6:
 				this.out.render(this.context, this.ownerFlag, this.canvas.width, this.canvas.height);
