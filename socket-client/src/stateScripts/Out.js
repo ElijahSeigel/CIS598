@@ -1,11 +1,23 @@
 //state 6
 export default class Out{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		
+		this.advance = -1;
+		socket.on('advanceL', (result)=>{
+			console.log(result);
+			this.advance = result;
+		})
 	}
 	update(x,y, width, height){
+		if(this.advance === 0 || this.advance === 1){
+			return 8;
+		}
+		if(this.advance === 4){
+			return 7;
+		}
 		return 6;
 	}
 	render(ctx, ownerFlag, width, height){

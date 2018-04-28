@@ -1,11 +1,27 @@
 //state 9
 export default class A{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		
+		this.win = false;
+		socket.on('win',()=>{
+			this.win = true;
+		})
+		
+		this.loss = false;
+		socket.on('loss',()=>{
+			this.loss = true;
+		})
 	}
 	update(x,y, width, height){
+		if(this.win){
+			return 11;
+		}
+		if(this.loss){
+			return 8;
+		}
 		return 9;
 	}
 	render(ctx, ownerFlag, width, height){

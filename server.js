@@ -47,7 +47,9 @@ io.on('connection', socket => {
 							id: room_count,
 							resetFlag: false,
 							players: [[socket]],
-							inStill: []
+							inStill: [],
+							votesA: 0,
+							votesB: 0
 							};
 		socket.emit('new_room', room_count);
 		room_count++;
@@ -94,17 +96,20 @@ io.on('connection', socket => {
 		var player1 = players1.pop(),
 		player2 = players2[0] == player1 ? players2.pop() : players2.shift();
 		
-		players1.splice(players1.indexOf(player2),0);
-		players2.splice(players2.indexOf(player1),0);
+		players1.splice(players1.indexOf(player2),1);
+		players2.splice(players2.indexOf(player1),1);
+
 		
 		rooms[id].inStill.forEach(function(player){
 			if(player[1] === player1[1]){
 				player[2] = player2[1];
+				console.log(player[1]+" : "+player[2]);
 			}
 			if(player[1] === player2[1]){
 				player[2] = player1[1];
 			}
 		});
+		console.log();
 	  }
 	  if(oddFlag){
 		  rooms[id].inStill.push(odd);
@@ -129,32 +134,63 @@ io.on('connection', socket => {
 						  player2[0].emit('guess', 'success');
 					  }
 				  })
-			  }
+			  }//end guess correct
 			  else{
-				   rooms[id].inStill.splice( rooms[id].inStill.indexOf(player1), 0);
+				  if(guess === '0 0 0 0'){
+					var flag = false;
+					rooms[id].inStill.forEach(function(player2){
+						if(player1[2] === player2[1]){
+							flag = true;
+						}
+					})
+					if(flag){
+						rooms[id].inStill.splice( rooms[id].inStill.indexOf(player1), 1);
+						console.log("guess not correct");
+				        socket.emit('guess', 'failure');
+					}else{
+						console.log("guess correct");
+						socket.emit('guess', 'success');
+					}
+				  }
+				  else{
+				   rooms[id].inStill.splice( rooms[id].inStill.indexOf(player1), 1);
 				   console.log("guess not correct");
 				   socket.emit('guess', 'failure');
 				   rooms[id].inStill.forEach(function(player2){
 					  if (guess === player2[1]){
-						  ooms[id].instill.splice( rooms[id].inStill.indexOf(player2), 0);
+						  rooms[id].inStill.splice( rooms[id].inStill.indexOf(player2), 1);
 						  player2[0].emit('guess', 'failure');
 					  }
 				  })
-			  }
-		  }
+				 }
+				}
+		  }//end if guesser
 	  });
   })
   
  socket.on('reset', (id)=>{
 	 if(!rooms[id].resetFlag){
+		var odd;
+		var oddFlag = false;
 		rooms[id].resetFlag = true;
 		if(rooms[id].inStill.length === 0){
-			
+			rooms[id].players.forEach(function(player){
+				player[0].emit('advanceL', 0);
+			})
 		}else if(rooms[id].inStill.length === 1){
-			
+			rooms[id].players.forEach(function(player){
+				player[0].emit('advanceL', 1);
+				player[0].emit('advanceW', 1);
+			})
 		}
 		else if(rooms[id].inStill.length === 2){
-			
+			rooms[id].inStill[0][0].emit('advanceW', 2);
+			rooms[id].inStill[1][0].emit('advanceW', 3);
+			rooms[id].players.forEach(function(player){
+				if(player[0] !== rooms[id].inStill[0][0] || player[0] !== rooms[id].inStill[1][0]){
+					player[0].emit('advanceL', 4);
+				}
+			})
 		}
 		else{
 			if(rooms[id].inStill.length%2 === 1){
@@ -169,26 +205,55 @@ io.on('connection', socket => {
 			players2.sort(function() { return 0.5 - Math.random();});
 
 			while(players1.length){
-			var player1 = players1.pop(),
-			player2 = players2[0] == player1 ? players2.pop() : players2.shift();
+				var player1 = players1.pop(),
+				player2 = players2[0] == player1 ? players2.pop() : players2.shift();
 
-			players1.splice(players1.indexOf(player2),0);
-			players2.splice(players2.indexOf(player1),0);
+				players1.splice(players1.indexOf(player2),1);
+				players2.splice(players2.indexOf(player1),1);
 
-			rooms[id].inStill.forEach(function(player){
-				if(player[1] === player1[1]){
-					player[2] = player2[1];
-				}
-				if(player[1] === player2[1]){
-					player[2] = player1[1];
-				}
-			});
+				rooms[id].inStill.forEach(function(player){
+					if(player[1] === player1[1]){
+						player[2] = player2[1];
+						console.log(player[1]+" : "+player[2]);
+					}
+					if(player[1] === player2[1]){
+						player[2] = player1[1];
+					}
+				});
+				console.log();
 			}
 			if(oddFlag){
 			  rooms[id].inStill.push(odd);
 			} 
 		}
 	 }
+ })
+ 
+ socket.on('vote', (input)=>{
+	  var id = input[0];
+	  var vote = input[1];
+	  
+	  if(vote === 'A'){
+		rooms[id].votesA++;  
+	  }
+	  else{
+		 rooms[id].votesB++; 
+	  }
+	  if(rooms[id].votesA + rooms[id].votesB === rooms[id].players.length - 2){
+		  if(rooms[id].votesA > rooms[id].votesB){
+			  rooms[id].inStill[0][0].emit('win');
+			  rooms[id].inStill[1][0].emit('loss');
+		  }
+		  else if(rooms[id].votesB > rooms[id].votesA)
+		  {
+			rooms[id].inStill[1][0].emit('win');
+			rooms[id].inStill[0][0].emit('loss'); 
+		  }
+		  else{
+			rooms[id].inStill[0][0].emit('win');
+			rooms[id].inStill[1][0].emit('win');  
+		  }
+	  }
  })
   
   socket.on('disconnect', () => {

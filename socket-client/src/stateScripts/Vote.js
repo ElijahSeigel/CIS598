@@ -5,21 +5,22 @@ export default class Vote{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 	}
-	update(x,y, width, height){
+	update(x,y, width, height, socket, roomID,){
 		if(x>(width/16)
 		   &&x<(width-width/16)
 		   &&y>(8*height/18)
 		   &&y<(11*height/18)){
-
+			socket.emit('vote', [roomID, 'A']);
 			return 8;
-		}//end if xy in create
+		}//end if xy in A
 		
 		if(x>width/16
 		   &&x<(width-width/16)
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
+			socket.emit('vote', [roomID, 'B']);
 			return 8;
-		}//end if xy in join
+		}//end if xy in B
 		return 7;
 	}
 	render(ctx, ownerFlag, width, height){

@@ -10,8 +10,16 @@ export default class SongPlaying{
 		
 		this.result = "unset";
 		socket.on('guess', (result)=>{
+				console.log(result)
 				this.result = result;
 		})
+		
+		this.advance = -1;
+		socket.on('advanceW', (result)=>{
+			console.log(result);
+			this.advance = result;
+		})
+		
 	}
 	update(x,y, width, height, socket, roomID, timer){
 		if(this.result === 'unset'){
@@ -98,14 +106,22 @@ export default class SongPlaying{
 			if(this.result === 'unset'){
 				socket.emit('guess', [roomID, '0 0 0 0']);
 			}
-			if(this.result === 'success'){
+			if(this.result === 'success' && this.advance === -1){
 				this.input= "_ _ _ _";
 				this.result = 'unset';
 				socket.emit('reset', roomID);
 				return [5,1];
 			}
 		}
-
+		if(this.advance === 1){
+			return [11];
+		}
+		if(this.advance === 2){
+			return [9]
+		}
+		if(this.advance === 3){
+			return [10];
+		}
 		if(this.result === 'failure'){
 			return [6];
 		}

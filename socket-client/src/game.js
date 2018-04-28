@@ -47,11 +47,11 @@ export default class Game{
 		this.wait = new Wait(this.socket);
 		this.waitStart = new WaitStart(this.socket);
 		this.songPlaying = new SongPlaying(this.socket);
-		this.out = new Out();
+		this.out = new Out(this.socket);
 		this.vote = new Vote();
 		this.loss = new Loss();
-		this.a = new A();
-		this.b = new B();
+		this.a = new A(this.socket);
+		this.b = new B(this.socket);
 		this.winner = new Winner();
 		
 		//Create the canvas
@@ -97,7 +97,6 @@ export default class Game{
 				var result = this.join.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.input, this.socket);
 				this.state = result[0];
 				if(this.state === 3){
-					console.log(this.state);
 					this.roomID = result[1];
 				}
 				break;
@@ -112,7 +111,8 @@ export default class Game{
 				var result = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 18000;
+					//this.roundTimer = 18000;
+					this.roundTimer = 5000;
 					this.code = result[1];
 				}
 				break;
@@ -121,21 +121,23 @@ export default class Game{
 				this.state = result[0];
 				if(this.state === 5){
 					this.code = result[1];
-					this.roundTimer = 18000;
+					//this.roundTimer = 18000;
+					this.roundTimer = 5000;
 				}
 				break;
 			case 5:
 				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer);
 				this.state = result[0];
 				if(this.state === 5 && result[1] === 1 ){
-					this.roundTimer = 18000;
+					//this.roundTimer = 18000;
+					this.roundTimer = 5000;
 				}
 				break;
 			case 6:
 				this.state = this.out.update(this.X, this.Y, this.canvas.width, this.canvas.height);
 				break;
 			case 7:
-				this.state = this.vote.update(this.X, this.Y, this.canvas.width, this.canvas.height);
+				this.state = this.vote.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				break;
 			case 8:
 				this.state = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag);
