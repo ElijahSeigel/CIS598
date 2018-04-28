@@ -5,8 +5,10 @@ export default class WaitStart{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 		this.code = "unset";
+		this.song = "";
 		socket.on('start', (result)=>{
-				this.code = result;
+				this.code = result[0];
+				this.song = result[1];
 		})
 	}
 	update(x,y, width, height, socket, id){
@@ -17,7 +19,11 @@ export default class WaitStart{
 			socket.emit('start', id);
 		}//end if xy in start
 		if(this.code !== "unset"){	
-			return [5, this.code]; 
+			var temp1 = this.code;
+			var temp2 = this.song;
+			this.code = "unset";
+			this.song = "";
+			return [5, temp1, temp2]; 
 		}
 		return [4];
 	}

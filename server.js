@@ -9,6 +9,7 @@ var server = http.createServer(app);
 var io = socketIO(server);
 var rooms = [];
 var room_count = 0;
+var songs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
 
 /*app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
@@ -88,9 +89,11 @@ io.on('connection', socket => {
 	  }
 	  var players1 = rooms[id].inStill.slice();
 	  var players2 = rooms[id].inStill.slice();
+	  var tempSongs = songs.slice();
 	
 	  players1.sort(function() { return 0.5 - Math.random();});
 	  players2.sort(function() { return 0.5 - Math.random();});
+	  tempSongs.sort(function() { return 0.5 - Math.random();});
 	
 	  while(players1.length){
 		var player1 = players1.pop(),
@@ -98,24 +101,28 @@ io.on('connection', socket => {
 		
 		players1.splice(players1.indexOf(player2),1);
 		players2.splice(players2.indexOf(player1),1);
-
+		song = tempSongs.pop();
 		
 		rooms[id].inStill.forEach(function(player){
 			if(player[1] === player1[1]){
 				player[2] = player2[1];
+				player[3] = song;
 				console.log(player[1]+" : "+player[2]);
+				console.log(song);
 			}
 			if(player[1] === player2[1]){
 				player[2] = player1[1];
+				player[3] = song;
 			}
 		});
 		console.log();
 	  }
 	  if(oddFlag){
+		  odd[3] = tempSongs.pop();
 		  rooms[id].inStill.push(odd);
 	  }
 	  rooms[id].inStill.forEach(function(player){
-		 player[0].emit('start', player[1]);
+		 player[0].emit('start', [player[1], player[3]]);
 	  });
   })
   
@@ -180,12 +187,12 @@ io.on('connection', socket => {
 		}else if(rooms[id].inStill.length === 1){
 			rooms[id].players.forEach(function(player){
 				player[0].emit('advanceL', 1);
-				player[0].emit('advanceW', 1);
+				player[0].emit('advanceW', [1,""]);
 			})
 		}
 		else if(rooms[id].inStill.length === 2){
-			rooms[id].inStill[0][0].emit('advanceW', 2);
-			rooms[id].inStill[1][0].emit('advanceW', 3);
+		rooms[id].inStill[0][0].emit('advanceW', [2,""]);
+			rooms[id].inStill[1][0].emit('advanceW', [3,""]);
 			rooms[id].players.forEach(function(player){
 				if(player[0] !== rooms[id].inStill[0][0] || player[0] !== rooms[id].inStill[1][0]){
 					player[0].emit('advanceL', 4);
@@ -200,9 +207,12 @@ io.on('connection', socket => {
 			}
 			var players1 = rooms[id].inStill.slice();
 			var players2 = rooms[id].inStill.slice();
+			var tempSongs = songs.slice();
 
 			players1.sort(function() { return 0.5 - Math.random();});
 			players2.sort(function() { return 0.5 - Math.random();});
+			tempSongs.sort(function() { return 0.5 - Math.random();});
+			
 
 			while(players1.length){
 				var player1 = players1.pop(),
@@ -210,21 +220,28 @@ io.on('connection', socket => {
 
 				players1.splice(players1.indexOf(player2),1);
 				players2.splice(players2.indexOf(player1),1);
+				song = tempSongs.pop();
 
 				rooms[id].inStill.forEach(function(player){
 					if(player[1] === player1[1]){
 						player[2] = player2[1];
+						player[3] = song;
 						console.log(player[1]+" : "+player[2]);
 					}
 					if(player[1] === player2[1]){
 						player[2] = player1[1];
+						player[3] = song;
 					}
 				});
 				console.log();
 			}
 			if(oddFlag){
+			  odd[3] = tempSongs.pop();
 			  rooms[id].inStill.push(odd);
-			} 
+			}
+			rooms[id].inStill.forEach(function(player){
+				player[0].emit('advanceW', [5, player[3]]);
+			});
 		}
 	 }
  })
@@ -256,9 +273,70 @@ io.on('connection', socket => {
 	  }
  })
   
+  socket.on('restart', (id)=>{
+	  rooms[id].votesA = 0;
+	  rooms[id].votesB = 0;
+	  rooms[id].resetFlag = false;
+	  var odd;
+	  var oddFlag = false;
+	  rooms[id].players.forEach(function(player){
+		player[1]=(""+(Math.floor(Math.random()*Math.floor(9))+1)+" "+Math.floor(Math.random()*Math.floor(10))+" "+Math.floor(Math.random()*Math.floor(10))+" "+Math.floor(Math.random()*Math.floor(10)));
+	  });
+	  //adapted from https://stackoverflow.com/questions/21295162/javascript-randomly-pair-items-from-array-without-repeats
+	  rooms[id].inStill = rooms[id].players.slice()
+	  if(rooms[id].inStill.length%2 === 1){
+		odd = rooms[id].inStill.pop();
+		odd[2] =("0 0 0 0");
+		oddFlag = true;
+	  }
+	  var players1 = rooms[id].inStill.slice();
+	  var players2 = rooms[id].inStill.slice();
+	  var tempSongs = songs.slice();	  
+	
+	  players1.sort(function() { return 0.5 - Math.random();});
+	  players2.sort(function() { return 0.5 - Math.random();});
+	  tempSongs.sort(function() { return 0.5 - Math.random();});
+	
+	  while(players1.length){
+		var player1 = players1.pop(),
+		player2 = players2[0] == player1 ? players2.pop() : players2.shift();
+		
+		players1.splice(players1.indexOf(player2),1);
+		players2.splice(players2.indexOf(player1),1);
+		song = tempSongs.pop();
+		
+		rooms[id].inStill.forEach(function(player){
+			if(player[1] === player1[1]){
+				player[2] = player2[1];
+				player[3] = song;
+				console.log(player[1]+" : "+player[2]);
+			}
+			if(player[1] === player2[1]){
+				player[2] = player1[1];
+				player[3] = song;
+			}
+		});
+		console.log();
+	  }
+	  if(oddFlag){
+		  odd[3] = tempSongs.pop();
+		  rooms[id].inStill.push(odd);
+	  }
+	  rooms[id].inStill.forEach(function(player){
+		 player[0].emit('restart', [player[1], player[3]]);
+	  });
+  })
+  
+  
+  
   socket.on('disconnect', () => {
     console.log('user disconnected')
-	
+	rooms.forEach(function(room){
+	if(room.players[0][0] === socket){
+		room.name = "";
+		room.id = -1;
+	}
+	})	
   })
 })
 

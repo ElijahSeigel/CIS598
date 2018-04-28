@@ -17,9 +17,11 @@ export default class B{
 	}
 	update(x,y, width, height){
 		if(this.win){
+			this.win = false;
 			return 11;
 		}
 		if(this.loss){
+			this.loss = false;
 			return 8;
 		}
 		

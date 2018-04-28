@@ -17,11 +17,14 @@ export default class A{
 	}
 	update(x,y, width, height){
 		if(this.win){
+			this.win = false;
 			return 11;
 		}
 		if(this.loss){
+			this.loss = false;
 			return 8;
 		}
+		
 		return 9;
 	}
 	render(ctx, ownerFlag, width, height){

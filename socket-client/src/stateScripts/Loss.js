@@ -1,20 +1,35 @@
 //state 8
 export default class Loss{
-	constructor(){
+	constructor(socket){
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
+		
+		this.code = "unset";
+		this.song = "";
+		socket.on('restart',(code)=>{
+			this.code = code[0];
+			this.song = code[1];
+		})
 	}
-	update(x,y, width, height, ownerFlag){
+	update(x,y, width, height, ownerFlag, socket, id){
 		if(ownerFlag){
 			if(x>width/16
 		     &&x<(width-width/16)
 		     &&y>(12*height/18)
 		     &&y<(15*height/18)){
-				return 5;
+				socket.emit('restart', id);
 			}//end if xy in restart
 		}
-		return 8;
+		
+		if(this.code !== "unset"){
+			var temp1 = this.code;
+			this.code = "unset";
+			var temp2 = this.song;
+			this.song = "";
+			return [5, temp1, temp2]; 
+		}
+		return [8];
 	}
 	render(ctx, ownerFlag, width, height){
 		//background

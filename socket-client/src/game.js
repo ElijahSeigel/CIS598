@@ -33,6 +33,7 @@ export default class Game{
 		//the code assigned at start of game
 		this.code
 		
+		this.song = 0;
 		//whether this client owns the game room
 		this.ownerFlag = false;
 		
@@ -49,10 +50,10 @@ export default class Game{
 		this.songPlaying = new SongPlaying(this.socket);
 		this.out = new Out(this.socket);
 		this.vote = new Vote();
-		this.loss = new Loss();
+		this.loss = new Loss(this.socket);
 		this.a = new A(this.socket);
 		this.b = new B(this.socket);
-		this.winner = new Winner();
+		this.winner = new Winner(this.socket);
 		
 		//Create the canvas
 		this.canvas = document.getElementById('canvas');
@@ -111,26 +112,29 @@ export default class Game{
 				var result = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
 				this.state = result[0];
 				if(this.state === 5){
-					//this.roundTimer = 18000;
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
 					this.code = result[1];
+					this.song = result[2];
+					document.getElementById('youtube-audio-1').click();
 				}
 				break;
 			case 4:
 				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				this.state = result[0];
 				if(this.state === 5){
+					this.roundTimer = 18000;
 					this.code = result[1];
-					//this.roundTimer = 18000;
-					this.roundTimer = 5000;
+					this.song = result[2];
+					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;
 			case 5:
 				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer);
 				this.state = result[0];
 				if(this.state === 5 && result[1] === 1 ){
-					//this.roundTimer = 18000;
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
+					this.song = result[2];
+					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;
 			case 6:
@@ -140,7 +144,14 @@ export default class Game{
 				this.state = this.vote.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				break;
 			case 8:
-				this.state = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag);
+				var result = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag, this.socket, this.roomID);
+				this.state = result[0];
+				if(this.state === 5){
+					this.roundTimer = 18000;
+					this.code = result[1];
+					this.song = result[2];
+					document.getElementById('youtube-audio-'+result[2]).click();
+				}
 				break;
 			case 9:
 				this.state = this.a.update(this.X, this.Y, this.canvas.width, this.canvas.height);
@@ -149,13 +160,24 @@ export default class Game{
 				this.state = this.b.update(this.X, this.Y, this.canvas.width, this.canvas.height);
 				break;
 			case 11:
-				this.state = this.winner.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag);
+				var result = this.winner.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag, this.socket, this.roomID);
+				this.state = result[0];
+				if(this.state === 5){
+					this.roundTimer = 18000;
+					this.code = result[1];
+					this.song = result[2];
+					document.getElementById('youtube-audio-'+result[2]).click();
+				}
 				break;
 		}//end switch(state)
 		this.X = -1;
 		this.Y = -1;
 		if(this.roundTimer>0){
 			this.roundTimer--;
+		}
+		if(this.state !== 5 && this.song!==0){
+			document.getElementById('youtube-audio-'+this.song).click();
+			this.song=0;
 		}
 	}//end update
 	

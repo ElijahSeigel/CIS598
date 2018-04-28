@@ -6,7 +6,7 @@ export default class SongPlaying{
 		this.render = this.render.bind(this);
 		this.inputLast = "";
 		this.input = "_ _ _ _"
-		this.round = 1;
+		//this.round = 1;
 		
 		this.result = "unset";
 		socket.on('guess', (result)=>{
@@ -15,9 +15,11 @@ export default class SongPlaying{
 		})
 		
 		this.advance = -1;
+		this.song = "";
 		socket.on('advanceW', (result)=>{
-			console.log(result);
-			this.advance = result;
+			console.log(result[0]);
+			this.advance = result[0];
+			this.song = result[1];
 		})
 		
 	}
@@ -110,20 +112,39 @@ export default class SongPlaying{
 				this.input= "_ _ _ _";
 				this.result = 'unset';
 				socket.emit('reset', roomID);
-				return [5,1];
 			}
 		}
 		if(this.advance === 1){
+			this.advance = -1;
+			this.input= "_ _ _ _";
+			this.result = 'unset';
 			return [11];
 		}
 		if(this.advance === 2){
+			this.advance = -1;
+			this.input= "_ _ _ _";
+			this.result = 'unset';
 			return [9]
 		}
 		if(this.advance === 3){
+			this.advance = -1;
+			this.input= "_ _ _ _";
+			this.result = 'unset';
 			return [10];
 		}
 		if(this.result === 'failure'){
+			this.advance = -1;
+			this.input= "_ _ _ _";
+			this.result = 'unset';
 			return [6];
+		}
+		if(this.advance === 5){
+			var temp = this.song;
+			this.song = "";
+			this.advance = -1;
+			this.input= "_ _ _ _";
+			this.result = 'unset';
+			return [5,1,temp];
 		}
 		
 		return [5, 0];

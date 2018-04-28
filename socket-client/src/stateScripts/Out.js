@@ -13,9 +13,11 @@ export default class Out{
 	}
 	update(x,y, width, height){
 		if(this.advance === 0 || this.advance === 1){
+			this.advance = -1;
 			return 8;
 		}
 		if(this.advance === 4){
+			this.advance = -1;
 			return 7;
 		}
 		return 6;

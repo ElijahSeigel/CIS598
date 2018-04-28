@@ -5,13 +5,19 @@ export default class Wait{
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 		this.code = "unset";
+		this.song = "";
 		socket.on('start', (result)=>{
-				this.code = result;
+				this.code = result[0];
+				this.song = result[1];
 		})
 	}
 	update(x,y, width, height){
 		if(this.code !== "unset"){	
-			return [5, this.code]; 
+			var temp1 = this.code;
+			var temp2 = this.song;
+			this.code = "unset";
+			this.song = "";
+			return [5, temp1, temp2]; 
 		}
 	return [3];
 	}
