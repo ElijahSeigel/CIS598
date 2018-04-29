@@ -112,19 +112,21 @@ export default class Game{
 				var result = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 18000;
+					this.roundTimer = 5000;
 					this.code = result[1];
 					this.song = result[2];
-					document.getElementById('youtube-audio-1').click();
+					console.log('youtube-audio-'+result[2]);
+					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;
 			case 4:
 				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 18000;
+					this.roundTimer = 5000;
 					this.code = result[1];
 					this.song = result[2];
+					console.log('youtube-audio-'+result[2]);
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;
@@ -132,7 +134,8 @@ export default class Game{
 				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer);
 				this.state = result[0];
 				if(this.state === 5 && result[1] === 1 ){
-					this.roundTimer = 18000;
+					this.roundTimer = 5000;
+					document.getElementById('youtube-audio-'+this.song).click();
 					this.song = result[2];
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}
@@ -147,7 +150,7 @@ export default class Game{
 				var result = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag, this.socket, this.roomID);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 18000;
+					this.roundTimer = 5000;
 					this.code = result[1];
 					this.song = result[2];
 					document.getElementById('youtube-audio-'+result[2]).click();
@@ -163,7 +166,7 @@ export default class Game{
 				var result = this.winner.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag, this.socket, this.roomID);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 18000;
+					this.roundTimer = 5000;
 					this.code = result[1];
 					this.song = result[2];
 					document.getElementById('youtube-audio-'+result[2]).click();
@@ -175,7 +178,7 @@ export default class Game{
 		if(this.roundTimer>0){
 			this.roundTimer--;
 		}
-		if(this.state !== 5 && this.song!==0){
+		if(this.roundTimer === 0 && this.song!==0){
 			document.getElementById('youtube-audio-'+this.song).click();
 			this.song=0;
 		}

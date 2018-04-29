@@ -111,7 +111,7 @@ export default class SongPlaying{
 			if(this.result === 'success' && this.advance === -1){
 				this.input= "_ _ _ _";
 				this.result = 'unset';
-				socket.emit('reset', roomID);
+				setTimeout(socket.emit('reset', roomID), 3000);
 			}
 		}
 		if(this.advance === 1){

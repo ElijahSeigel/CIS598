@@ -191,8 +191,8 @@ io.on('connection', socket => {
 			})
 		}
 		else if(rooms[id].inStill.length === 2){
-		rooms[id].inStill[0][0].emit('advanceW', [2,""]);
-			rooms[id].inStill[1][0].emit('advanceW', [3,""]);
+		rooms[id].inStill[0][0].emit('advanceW', [2, Math.floor(Math.random()*Math.floor(30))]);
+			rooms[id].inStill[1][0].emit('advanceW', [3,Math.floor(Math.random()*Math.floor(30))]);
 			rooms[id].players.forEach(function(player){
 				if(player[0] !== rooms[id].inStill[0][0] || player[0] !== rooms[id].inStill[1][0]){
 					player[0].emit('advanceL', 4);
