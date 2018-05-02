@@ -4,6 +4,7 @@ var http = require('http');
 var path = require('path');
 var compression = require('compression');
 var helmet = require('helmet');
+var favicon = require('serve-favicon');
 var socketIO = require('socket.io');
 var port = 5000;
 var app = express();
