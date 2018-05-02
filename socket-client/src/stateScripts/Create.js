@@ -17,6 +17,7 @@ export default class create{
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
 			//send room name to server
+			console.log(input.value.toUpperCase())
 			socket.emit('new_room', input.value.toUpperCase())
 		}//end if xy in enter
 		if(this.result === 'failure'){

@@ -37,6 +37,7 @@ io.on('connection', socket => {
   console.log('User connected')
 
   socket.on('new_room', (name)=>{
+	  console.log('new_room')
 	 flag = true;
 	 rooms.forEach(function(room){
 		 if(room.name === name){
