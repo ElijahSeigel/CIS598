@@ -15,7 +15,7 @@ var rooms = [];
 var room_count = 0;
 var songs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
 
-/*app.set('port', 5000);
+app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
 // Routing
 app.get('/', function(request, response) {
@@ -25,15 +25,13 @@ app.get('/', function(request, response) {
 server.listen(5000, function() {
   console.log('Starting server on port 5000');
 });
-//web socket handlers
-io.on('connection', function (socket){
-	
-});
+
 //testing connection*
-setInterval(function() {
+/*setInterval(function() {
   io.sockets.emit('message', 'hi!');
 }, 1000);*/
 
+//web socket handlers
 io.on('connection', socket => {
   console.log('User connected')
 
