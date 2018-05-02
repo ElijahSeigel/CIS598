@@ -35,7 +35,6 @@ server.listen(port, function() {
 //web socket handlers
 io.on('connection', function (socket){
   console.log('User connected')
-  console.log(socket)
 
   socket.on('new_room', (name)=>{
 	  console.log('new_room')
