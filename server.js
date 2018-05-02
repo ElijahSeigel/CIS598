@@ -2,9 +2,13 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var compression = require('compression');
+var helmet = require('helmet');
 var socketIO = require('socket.io');
 var port = 5000;
 var app = express();
+app.use(compression());
+app.use(helmet());
 var server = http.createServer(app);
 var io = socketIO(server);
 var rooms = [];
