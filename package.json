@@ -1,6 +1,9 @@
 {
   "name": "silent_dance_off",
   "version": "1.0.0",
+  "engines":{
+	"node": "6.11.4"
+  },
   "description": "A silent disco party game",
   "main": "server.js",
   "scripts": {
