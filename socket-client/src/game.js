@@ -23,7 +23,7 @@ export default class Game{
 		this.state = 0;
 		
 		//communication endpoint
-		this.socket = socketIOClient("https://silent-dance-off.herokuapp.com/:5000");
+		this.socket = socketIOClient("https://silent-dance-off.herokuapp.com/:5100");
 		//the room ID server side
 		this.roomID;
 		
