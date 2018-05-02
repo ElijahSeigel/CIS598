@@ -33,7 +33,7 @@ server.listen(port, function() {
 }, 1000);*/
 
 //web socket handlers
-io.on('connection', socket => {
+io.on('connection', function (socket){
   console.log('User connected')
 
   socket.on('new_room', (name)=>{
