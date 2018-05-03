@@ -1,14 +1,36 @@
 // Dependencies
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require('path');
-onst PORT = process.env.PORT || 5000;
-const INDEX = path.join(__dirname, 'index.html');
+var express = require('express');
+var http = require('http');
+var path = require('path');
+var compression = require('compression');
+var helmet = require('helmet');
+var favicon = require('serve-favicon');
+var socketIO = require('socket.io');
+var port = process.env.PORT || 5000;
+var app = express();
+app.use(compression());
+app.use(helmet());
+var server = http.createServer(app);
+var io = socketIO(server);
+var rooms = [];
+var room_count = 0;
+var songs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
- var io = socketIO(server);
+app.set('port', process.env.PORT || 5000);
+app.use('/static', express.static(__dirname + '/static'));
+// Routing
+app.get('/', function(request, response) {
+  response.sendFile(path.join(__dirname, 'index.html')); 
+});
+// Starts the server.
+server.listen(port, function() {
+  console.log(`Starting server on port ${port}`);
+});
+
+//testing connection*
+/*setInterval(function() {
+  io.sockets.emit('message', 'hi!');
+}, 1000);*/
 
 //web socket handlers
 io.on('connection', (socket)=>{
