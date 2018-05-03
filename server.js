@@ -8,7 +8,13 @@ const INDEX = path.join(__dirname, 'index.html');
 const server = express()
   .use((req, res) => res.sendFile(INDEX) )
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
- var io = socketIO(server);
+var io = socketIO(server);
+
+//server varaibles
+var rooms = [];
+var room_count = 0;
+var songs = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+
 
 //web socket handlers
 io.on('connection', (socket)=>{
