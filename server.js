@@ -33,7 +33,7 @@ server.listen(port, function() {
 }, 1000);*/
 
 //web socket handlers
-io.on('connection', function (socket){
+io.on('connection', (socket)=>{
   console.log('User connected')
 
   socket.on('new_room', (name)=>{
@@ -344,5 +344,5 @@ io.on('connection', function (socket){
   })
 })
 
-server.listen(process.env.PORT || 5000, () => console.log(`Listening on port ${port}`))
+//server.listen(process.env.PORT || 5000, () => console.log(`Listening on port ${port}`))
 
