@@ -133,7 +133,7 @@ export default class Game{
 			case 5:
 				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer);
 				this.state = result[0];
-				if(this.state === 5 && result[1] === 1 ){
+				if((this.state === 5 || this.state === 9 || this.state === 10)&& result[1] === 1 ){
 					this.roundTimer = 5000;
 					document.getElementById('youtube-audio-'+this.song).click();
 					this.song = result[2];
@@ -178,7 +178,7 @@ export default class Game{
 		if(this.roundTimer>0){
 			this.roundTimer--;
 		}
-		if(this.roundTimer === 0 && this.song!==0){
+		if(this.state !== 5 && this.state !== 9 && this.state !== 10 && this.song!==0){
 			document.getElementById('youtube-audio-'+this.song).click();
 			this.song=0;
 		}

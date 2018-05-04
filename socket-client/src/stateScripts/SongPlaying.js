@@ -104,33 +104,28 @@ export default class SongPlaying{
 				}//end if third column
 			}//end in fourth row
 		}
-		if(timer === 0){
-			if(this.result === 'unset'){
-				socket.emit('guess', [roomID, '0 0 0 0']);
-			}
-			if(this.result === 'success' && this.advance === -1){
-				this.input= "_ _ _ _";
-				this.result = 'unset';
-				setTimeout(socket.emit('reset', roomID), 3000);
-			}
-		}
 		if(this.advance === 1){
+			this.song = "";
 			this.advance = -1;
 			this.input= "_ _ _ _";
 			this.result = 'unset';
 			return [11];
 		}
 		if(this.advance === 2){
+			var temp = this.song;
+			this.song = "";
 			this.advance = -1;
 			this.input= "_ _ _ _";
 			this.result = 'unset';
-			return [9]
+			return [9,1,temp]
 		}
 		if(this.advance === 3){
+			var temp = this.song;
+			this.song = "";
 			this.advance = -1;
 			this.input= "_ _ _ _";
 			this.result = 'unset';
-			return [10];
+			return [10,1,temp];
 		}
 		if(this.result === 'failure'){
 			this.advance = -1;
@@ -145,6 +140,14 @@ export default class SongPlaying{
 			this.input= "_ _ _ _";
 			this.result = 'unset';
 			return [5,1,temp];
+		}
+		if(timer === 0){
+			if(this.result === 'unset'){
+				socket.emit('guess', [roomID, '0 0 0 0']);
+			}
+			if(this.result === 'success'){
+				socket.emit('reset', roomID);
+			}
 		}
 		
 		return [5, 0];

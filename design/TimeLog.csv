@@ -62,4 +62,8 @@
 5/2/18, 5:42PM, working on my advertisement, START
 5/2/18, 6:28PM, done working on my advertisement, BREAK
 5/3/18, 2:37PM, getting server to host on heroku, START
+5/3/18, 3:43PM, tracking down bug that lets music play in states that should not have music, CONT
+5/3/18, 3:58PM, server now hosted at https://silent-dance-offherokuapp.com ,BREAK
+5/4/18, 10:59AM, tracking down bug that allows for multiple guesses when both members in a pair guess once incorrectly, START
+5/4/18, 11:39AM, multiple guess bug resolved, BREAK
 
