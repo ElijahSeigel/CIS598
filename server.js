@@ -169,6 +169,18 @@ io.on('connection', (socket)=>{
 	 console.log("reset attempt");
 	 if(!rooms[id].resetFlag){
 		 console.log("reset success");
+		 
+		rooms[id].inStill.forEach(function(player1){
+			rooms[id].inStill.forEach(function(player2){
+				if(player1[2] === player2[1]){
+					player1[0].emit('guess', 'failure');
+					rooms[id].inStill.splice( rooms[id].inStill.indexOf(player1), 1);
+					player2[0].emit('guess', 'failure');
+					rooms[id].inStill.splice( rooms[id].inStill.indexOf(player2), 1);
+				}
+			})
+		}) 
+		 
 		var odd;
 		var oddFlag = false;
 		rooms[id].resetFlag = true;

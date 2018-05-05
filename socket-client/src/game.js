@@ -33,9 +33,14 @@ export default class Game{
 		//the code assigned at start of game
 		this.code
 		
+		//song to be played, 0 is no song
 		this.song = 0;
+		
 		//whether this client owns the game room
 		this.ownerFlag = false;
+		
+		//whether or not this is the first round of a restarted game
+		this.restartFlag = false;
 		
 		//x and y coordinates of click, default -1
 		this.x = -1;
@@ -131,8 +136,9 @@ export default class Game{
 				}
 				break;
 			case 5:
-				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer);
+				var result = this.songPlaying.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID, this.roundTimer, this.restartFlag);
 				this.state = result[0];
+				this.restartFlag = false;
 				if((this.state === 5 || this.state === 9 || this.state === 10)&& result[1] === 1 ){
 					this.roundTimer = 5000;
 					document.getElementById('youtube-audio-'+this.song).click();
@@ -149,6 +155,7 @@ export default class Game{
 			case 8:
 				var result = this.loss.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag, this.socket, this.roomID);
 				this.state = result[0];
+				this.restartFlag = true;
 				if(this.state === 5){
 					this.roundTimer = 5000;
 					this.code = result[1];
@@ -165,6 +172,7 @@ export default class Game{
 			case 11:
 				var result = this.winner.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.ownerFlag, this.socket, this.roomID);
 				this.state = result[0];
+				this.restartFlag = true;
 				if(this.state === 5){
 					this.roundTimer = 5000;
 					this.code = result[1];

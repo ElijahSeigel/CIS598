@@ -6,7 +6,6 @@ export default class SongPlaying{
 		this.render = this.render.bind(this);
 		this.inputLast = "";
 		this.input = "_ _ _ _"
-		//this.round = 1;
 		
 		this.result = "unset";
 		socket.on('guess', (result)=>{
@@ -19,11 +18,17 @@ export default class SongPlaying{
 		socket.on('advanceW', (result)=>{
 			console.log(result[0]);
 			this.advance = result[0];
+			console.log(this.advance);
 			this.song = result[1];
 		})
 		
 	}
-	update(x,y, width, height, socket, roomID, timer){
+	update(x,y, width, height, socket, roomID, timer, restartFlag){
+		if(restartFlag){
+			this.advance = -1;
+			this.result = "unset";
+		}
+		
 		if(this.result === 'unset'){
 			if(y>8*height/18&&y<10*height/18){
 				if(x>width/16&&x<5*width/16){//7
@@ -81,7 +86,7 @@ export default class SongPlaying{
 					//this.input = "_ _ _ _";
 					//console.log("ENT");
 					//check with server if input is correct
-					socket.emit('guess', [roomID, this.input]);			
+					socket.emit('guess', [roomID, this.input]);
 				}//end if first column
 				if(x>3*width/8&&x<5*width/8){//0
 					//console.log("0");
@@ -143,9 +148,6 @@ export default class SongPlaying{
 			return [5,1,temp];
 		}
 		if(timer === 0){
-			if(this.result === 'unset'){
-				socket.emit('guess', [roomID, '0 0 0 0']);
-			}
 			socket.emit('reset', roomID);
 		}
 		return [5, 0];
