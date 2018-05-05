@@ -124,13 +124,16 @@ io.on('connection', (socket)=>{
 	  rooms[id].inStill.forEach(function(player1){
 		  if(socket === player1[0]){
 			  if(guess === player1[2]){
+				 
 				  console.log("guess correct");
 				  socket.emit('guess', 'success');
 				  rooms[id].inStill.forEach(function(player2){
 					  if (guess === player2[1]){
 						  player2[0].emit('guess', 'success');
+						  player2[2] = "-1"
 					  }
 				  })
+				player1[2] = "-1"  
 			  }//end guess correct
 			  else{
 				  if(guess === '0 0 0 0'){
