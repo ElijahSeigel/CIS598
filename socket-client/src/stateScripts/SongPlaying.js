@@ -149,6 +149,7 @@ export default class SongPlaying{
 		}
 		if(timer === 0){
 			socket.emit('reset', roomID);
+			console.log('reset');
 		}
 		return [5, 0];
 	}

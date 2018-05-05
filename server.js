@@ -38,7 +38,8 @@ io.on('connection', (socket)=>{
 							players: [[socket]],
 							inStill: [],
 							votesA: 0,
-							votesB: 0
+							votesB: 0,
+							resetCount: 0
 							};
 		socket.emit('new_room', room_count);
 		room_count++;
@@ -169,10 +170,11 @@ io.on('connection', (socket)=>{
   })
   
  socket.on('reset', (id)=>{
+	 rooms[id].resetCount ++;
 	 console.log("reset attempt");
-	 if(!rooms[id].resetFlag){
+	 if(!rooms[id].resetFlag || rooms[id].resetCount>rooms[id].inStill.length){
 		 console.log("reset success");
-		 
+		 rooms[id].resetCount = 0;
 		rooms[id].inStill.forEach(function(player1){
 			rooms[id].inStill.forEach(function(player2){
 				if(player1[2] === player2[1]){
@@ -234,6 +236,7 @@ io.on('connection', (socket)=>{
 						player[2] = player2[1];
 						player[3] = song;
 						console.log(player[1]+" : "+player[2]);
+						console.log(song);
 					}
 					if(player[1] === player2[1]){
 						player[2] = player1[1];
@@ -317,6 +320,7 @@ io.on('connection', (socket)=>{
 				player[2] = player2[1];
 				player[3] = song;
 				console.log(player[1]+" : "+player[2]);
+				console.log(song);
 			}
 			if(player[1] === player2[1]){
 				player[2] = player1[1];
