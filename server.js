@@ -117,7 +117,9 @@ io.on('connection', (socket)=>{
   socket.on('guess', (input)=>{
 	  var id = input[0];
 	  var guess = input[1];
-	  rooms[id].resetFlag = false;
+	  if(guess !== '0 0 0 0'){
+		rooms[id].resetFlag = false;  
+	  }
 	  console.log("guess: "+guess)
 	  rooms[id].inStill.forEach(function(player1){
 		  if(socket === player1[0]){

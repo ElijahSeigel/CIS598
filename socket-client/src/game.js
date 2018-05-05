@@ -115,7 +115,7 @@ export default class Game{
 					this.roundTimer = 5000;
 					this.code = result[1];
 					this.song = result[2];
-					console.log('youtube-audio-'+result[2]);
+					//console.log('youtube-audio-'+result[2]);
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;
@@ -126,7 +126,7 @@ export default class Game{
 					this.roundTimer = 5000;
 					this.code = result[1];
 					this.song = result[2];
-					console.log('youtube-audio-'+result[2]);
+					//console.log('youtube-audio-'+result[2]);
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;

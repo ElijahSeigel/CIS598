@@ -129,6 +129,7 @@ export default class SongPlaying{
 		}
 		if(this.result === 'failure'){
 			this.advance = -1;
+			this.song = "";
 			this.input= "_ _ _ _";
 			this.result = 'unset';
 			return [6];
@@ -145,11 +146,8 @@ export default class SongPlaying{
 			if(this.result === 'unset'){
 				socket.emit('guess', [roomID, '0 0 0 0']);
 			}
-			if(this.result === 'success'){
-				socket.emit('reset', roomID);
-			}
+			socket.emit('reset', roomID);
 		}
-		
 		return [5, 0];
 	}
 	render(ctx, ownerFlag, width, height, code, time){
