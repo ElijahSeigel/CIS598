@@ -49,15 +49,20 @@ io.on('connection', (socket)=>{
 	flag = true;
 	 rooms.forEach(function(room){
 		 if(room.name === name){
-			 room.players.push([socket]);
-			 console.log("join: "+ name)
-			 socket.emit('join_room', room.id);
 			 flag = false;
+			if(room.players.length >= 30){
+				socket.emit('join_room', 'Room Full'); 
+			 }
+			 else{
+				 room.players.push([socket]);
+				 console.log("join: "+ name)
+				 socket.emit('join_room', room.id);
+			 }
 		 }
 	 })
 	if(flag){
 		console.log("fail to join "+ name);
-		socket.emit('join_room', 'failure');
+		socket.emit('join_room', 'No Room');
 	}
 	 
   })

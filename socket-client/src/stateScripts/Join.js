@@ -19,8 +19,15 @@ export default class Join{
 			//send room name to server
 			socket.emit('join_room', input.value.toUpperCase())
 		}//end if xy in enter
-		if(this.result === 'failure'){
+		if(this.result === 'Room Full'){
 			input.value = '';
+			input.placeholder = 'Room Full';
+			this.result = 'unset';
+			return [1];
+		}
+		if(this.result === 'No Room'){
+			input.value = '';
+			input.placeholder = 'No Room';
 			this.result = 'unset';
 			return [1];
 		}

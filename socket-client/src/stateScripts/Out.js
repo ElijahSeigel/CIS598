@@ -7,8 +7,7 @@ export default class Out{
 		
 		this.advance = -1;
 		socket.on('advanceL', (result)=>{
-			console.log(result);
-			this.advance = result;
+		this.advance = result;
 		})
 	}
 	update(x,y, width, height){

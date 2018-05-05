@@ -4,7 +4,7 @@ export default class A{
 		//bind class functions
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
-		
+
 		this.win = false;
 		socket.on('win',()=>{
 			this.win = true;

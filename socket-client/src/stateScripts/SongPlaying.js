@@ -9,7 +9,6 @@ export default class SongPlaying{
 		
 		this.result = "unset";
 		socket.on('guess', (result)=>{
-				console.log(result)
 				this.result = result;
 		})
 		
@@ -149,7 +148,6 @@ export default class SongPlaying{
 		}
 		if(timer === 0){
 			socket.emit('reset', roomID);
-			console.log('reset');
 		}
 		return [5, 0];
 	}

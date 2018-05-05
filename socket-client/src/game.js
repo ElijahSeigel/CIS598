@@ -117,7 +117,7 @@ export default class Game{
 				var result = this.wait.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
 					this.code = result[1];
 					this.song = result[2];
 					//console.log('youtube-audio-'+result[2]);
@@ -128,9 +128,9 @@ export default class Game{
 				var result = this.waitStart.update(this.X, this.Y, this.canvas.width, this.canvas.height, this.socket, this.roomID);
 				this.state = result[0];
 				if(this.state === 5){
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
 					this.code = result[1];
-					this.song = result[2];
+					this.song = 2;//result[2];
 					//console.log('youtube-audio-'+result[2]);
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}
@@ -140,7 +140,7 @@ export default class Game{
 				this.state = result[0];
 				this.restartFlag = false;
 				if((this.state === 5 || this.state === 9 || this.state === 10)&& result[1] === 1 ){
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
 					document.getElementById('youtube-audio-'+this.song).click();
 					this.song = result[2];
 					document.getElementById('youtube-audio-'+result[2]).click();
@@ -157,7 +157,7 @@ export default class Game{
 				this.state = result[0];
 				this.restartFlag = true;
 				if(this.state === 5){
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
 					this.code = result[1];
 					this.song = result[2];
 					document.getElementById('youtube-audio-'+result[2]).click();
@@ -174,7 +174,7 @@ export default class Game{
 				this.state = result[0];
 				this.restartFlag = true;
 				if(this.state === 5){
-					this.roundTimer = 5000;
+					this.roundTimer = 18000;
 					this.code = result[1];
 					this.song = result[2];
 					document.getElementById('youtube-audio-'+result[2]).click();
