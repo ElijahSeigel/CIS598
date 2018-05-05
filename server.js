@@ -172,9 +172,9 @@ io.on('connection', (socket)=>{
  socket.on('reset', (id)=>{
 	 rooms[id].resetCount ++;
 	 console.log("reset attempt");
-	 if(!rooms[id].resetFlag || rooms[id].resetCount>rooms[id].inStill.length){
-		 console.log("reset success");
+	 if(!rooms[id].resetFlag || rooms[id].resetCount>2*rooms[id].inStill.length){
 		 rooms[id].resetCount = 0;
+		 console.log("reset success on count: "+ rooms[id]resetCount);
 		rooms[id].inStill.forEach(function(player1){
 			rooms[id].inStill.forEach(function(player2){
 				if(player1[2] === player2[1]){
