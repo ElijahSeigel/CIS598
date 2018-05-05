@@ -38,8 +38,7 @@ io.on('connection', (socket)=>{
 							players: [[socket]],
 							inStill: [],
 							votesA: 0,
-							votesB: 0,
-							resetCount: 0
+							votesB: 0
 							};
 		socket.emit('new_room', room_count);
 		room_count++;
@@ -118,9 +117,7 @@ io.on('connection', (socket)=>{
   socket.on('guess', (input)=>{
 	  var id = input[0];
 	  var guess = input[1];
-	  if(guess !== '0 0 0 0'){
-		rooms[id].resetFlag = false;  
-	  }
+	    
 	  console.log("guess: "+guess)
 	  rooms[id].inStill.forEach(function(player1){
 		  if(socket === player1[0]){
@@ -170,11 +167,10 @@ io.on('connection', (socket)=>{
   })
   
  socket.on('reset', (id)=>{
-	 rooms[id].resetCount ++;
 	 console.log("reset attempt");
-	 if(!rooms[id].resetFlag /*|| rooms[id].resetCount > 2*rooms[id].inStill.length*/){
-		 console.log("reset success on count: "+ rooms[id].resetCount);
-		 rooms[id].resetCount = 0;
+	 if(!rooms[id].resetFlag){
+		rooms[id].resetFlag = true;
+		console.log("reset success");
 		rooms[id].inStill.forEach(function(player1){
 			rooms[id].inStill.forEach(function(player2){
 				if(player1[2] === player2[1]){
@@ -188,7 +184,6 @@ io.on('connection', (socket)=>{
 		 
 		var odd;
 		var oddFlag = false;
-		rooms[id].resetFlag = true;
 		if(rooms[id].inStill.length === 0){
 			rooms[id].players.forEach(function(player){
 				player[0].emit('advanceL', 0);
@@ -253,6 +248,7 @@ io.on('connection', (socket)=>{
 				player[0].emit('advanceW', [5, player[3]]);
 			});
 		}
+		rooms[id].resetFlag = false;
 	 }
  })
  
