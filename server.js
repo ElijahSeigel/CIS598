@@ -251,6 +251,7 @@ io.on('connection', (socket)=>{
 				player[0].emit('advanceW', [5, player[3]]);
 			});
 		}
+		rooms[id].guessFlag = false;
 	 }
  })
  
