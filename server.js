@@ -166,7 +166,9 @@ io.on('connection', (socket)=>{
   })
   
  socket.on('reset', (id)=>{
+	 console.log("reset attempt");
 	 if(!rooms[id].resetFlag){
+		 console.log("reset success");
 		var odd;
 		var oddFlag = false;
 		rooms[id].resetFlag = true;
