@@ -38,7 +38,8 @@ io.on('connection', (socket)=>{
 							players: [[socket]],
 							inStill: [],
 							votesA: 0,
-							votesB: 0
+							votesB: 0,
+							guessFlag: false
 							};
 		socket.emit('new_room', room_count);
 		room_count++;
@@ -117,7 +118,8 @@ io.on('connection', (socket)=>{
   socket.on('guess', (input)=>{
 	  var id = input[0];
 	  var guess = input[1];
-	    
+	  rooms[id].resetFlag = false;
+	  rooms[id].guessFlag = true;
 	  console.log("guess: "+guess)
 	  rooms[id].inStill.forEach(function(player1){
 		  if(socket === player1[0]){
@@ -168,8 +170,9 @@ io.on('connection', (socket)=>{
   
  socket.on('reset', (id)=>{
 	 console.log("reset attempt");
-	 if(!rooms[id].resetFlag){
+	 if(!rooms[id].resetFlag || !rooms[id].guessFlag){
 		rooms[id].resetFlag = true;
+		rooms[id].guessFlag = true;
 		console.log("reset success");
 		rooms[id].inStill.forEach(function(player1){
 			rooms[id].inStill.forEach(function(player2){
@@ -248,7 +251,6 @@ io.on('connection', (socket)=>{
 				player[0].emit('advanceW', [5, player[3]]);
 			});
 		}
-		rooms[id].resetFlag = false;
 	 }
  })
  
