@@ -21,6 +21,7 @@ export default class create{
 		}//end if xy in enter
 		if(this.result === 'failure'){
 			input.value = '';
+			input.placeholder = 'TAKEN';
 			this.result = 'unset';
 			return [2];
 		}

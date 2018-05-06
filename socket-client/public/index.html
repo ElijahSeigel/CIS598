@@ -30,6 +30,20 @@
     </noscript>
 	<canvas id="canvas"></canvas>
 	<input type = "text" id = "text" pattern="[A-Za-z]{6}"></input>
+	<style>
+		::placeholder {
+			color: rgb(174,214,241);
+			opacity: 1; /* Firefox */
+		}
+
+		:-ms-input-placeholder { /* Internet Explorer 10-11 */
+		   color: rgb(174,214,241);
+		}
+
+		::-ms-input-placeholder { /* Microsoft Edge */
+		   color: rgb(174,214,241);
+		}	
+	</style>
 	
 	<div hidden = true;
 		data-video="z1dJ9R1M6Dg"  

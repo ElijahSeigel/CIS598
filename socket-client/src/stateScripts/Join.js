@@ -21,7 +21,7 @@ export default class Join{
 		}//end if xy in enter
 		if(this.result === 'Room Full'){
 			input.value = '';
-			input.placeholder = 'Room Full';
+			input.placeholder = 'Full';
 			this.result = 'unset';
 			return [1];
 		}
