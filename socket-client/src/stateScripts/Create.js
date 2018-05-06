@@ -47,8 +47,8 @@ export default class create{
 		
 		//input field
 		input.hidden = false;
-		input.style = "text-transform:uppercase; text-align: center; background-color: #1B4F72; color: #3498db; position:absolute; top:"+8*height/18+"px; left:"+width/16+"px; width:"+7*width/8+"px; height:"+3*height/18+"px; font:"+font_size+"px courier;";
-			
+		//input.style = "text-transform:uppercase; text-align: center; background-color: #1B4F72; color: #3498db; position:absolute; top:"+8*height/18+"px; left:"+width/16+"px; width:"+7*width/8+"px; height:"+3*height/18+"px; font:"+font_size+"px courier;";
+		input.style = "top:"+8*height/18+"px; font:"+font_size+"px courier; position:absolute; left: 6.25%; width:87.5%; height: 16.66%;";
 			
 		//button
 		ctx.fillStyle = 'rgb(27,79,114)';

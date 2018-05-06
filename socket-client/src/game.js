@@ -74,13 +74,15 @@ export default class Game{
 		
 		//Bind class functions
 		this.handleInput = this.handleInput.bind(this);
+		this.preventMotion = this.preventMotion.bind(this);
 		this.update = this.update.bind(this);
 		this.render = this.render.bind(this);
 		this.loop = this.loop.bind(this);
 		
 		//set up event handlers
 		document.getElementById('canvas').addEventListener("click", this.handleInput);
-		
+		//window.addEventListener("scroll", this.preventMotion, false);
+		//window.addEventListener("touchmove", this.preventMotion, false);
 		//initial render
 		this.render();
 		
@@ -91,7 +93,15 @@ export default class Game{
 	handleInput(event){
 		this.X = event.clientX;
 		this.Y = event.clientY;
+		
 	}//end handleInput
+	
+	preventMotion(event)
+	{
+		window.scrollTo(0, 0);
+		event.preventDefault();
+		event.stopPropagation();
+	}
 	
 	update(){
 		switch(this.state){
@@ -130,7 +140,7 @@ export default class Game{
 				if(this.state === 5){
 					this.roundTimer = 18000;
 					this.code = result[1];
-					this.song = 2;//result[2];
+					this.song = result[2];
 					//console.log('youtube-audio-'+result[2]);
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}

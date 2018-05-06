@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <meta name="theme-color" content="#000000">
     <!--
       manifest.json provides metadata used when your web app is added to the
@@ -23,6 +23,13 @@
   </head>
   <style>
 	canvas{display: block;}
+	html, body {
+			overflow-x: hidden;
+			overflow-y: hidden;
+		}
+	body {
+			position: relative;
+		}
   </style>
   <body>
     <noscript>
@@ -42,7 +49,13 @@
 
 		::-ms-input-placeholder { /* Microsoft Edge */
 		   color: rgb(174,214,241);
-		}	
+		}
+		input{
+			text-transform:uppercase; 
+			text-align: center; 
+			background-color: #1B4F72; 
+			color: #3498db;
+		}
 	</style>
 	
 	<div hidden = true;
