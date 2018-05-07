@@ -17,7 +17,13 @@ export default class create{
 		   &&y>(12*height/18)
 		   &&y<(15*height/18)){
 			//send room name to server
-			socket.emit('new_room', input.value.toUpperCase())
+			if(input.value.length<=6 && input.value.match(/^[A-Za-z]+$/)){
+				socket.emit('new_room', input.value.toUpperCase());
+			}else{
+				input.value = '';
+				input.placeholder = 'INVALID';
+			}
+		
 		}//end if xy in enter
 		if(this.result === 'failure'){
 			input.value = '';

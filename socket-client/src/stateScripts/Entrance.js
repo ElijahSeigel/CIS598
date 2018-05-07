@@ -22,7 +22,11 @@ export default class Entrance{
 			return 1;
 		}//end if xy in join
 		
-		return 0;//click not in button, don't care
+		if(x>-1 && y>-1){
+			return 12;
+		}//click not in button, go to instructions
+		
+		return 0;//no click 
 	}//end update
 	
 	render(ctx, ownerFlag, width, height){

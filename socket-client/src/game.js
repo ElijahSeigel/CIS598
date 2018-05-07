@@ -15,6 +15,7 @@ import Loss from './stateScripts/Loss';
 import A from './stateScripts/A';
 import B from './stateScripts/B';
 import Winner from './stateScripts/Winner';
+import Instructions from './stateScripts/Instructions'
 
 //central game control class
 export default class Game{
@@ -59,6 +60,7 @@ export default class Game{
 		this.a = new A(this.socket);
 		this.b = new B(this.socket);
 		this.winner = new Winner(this.socket);
+		this.instructions = new Instructions();
 		
 		//Create the canvas
 		this.canvas = document.getElementById('canvas');
@@ -190,6 +192,9 @@ export default class Game{
 					document.getElementById('youtube-audio-'+result[2]).click();
 				}
 				break;
+			case 12:
+				this.state = this.instructions.update(this.X, this.Y, this.canvas.width, this.canvas.height)
+			break;
 		}//end switch(state)
 		this.X = -1;
 		this.Y = -1;
@@ -240,6 +245,9 @@ export default class Game{
 			case 11:
 				this.winner.render(this.context, this.ownerFlag, this.canvas.width, this.canvas.height);
 				break;
+			case 12:
+				this.instructions.render(this.context, this.ownerFlag, this.canvas.width, this.canvas.height);
+			break;
 		}//end switch(state)
 	}//end render
 	
